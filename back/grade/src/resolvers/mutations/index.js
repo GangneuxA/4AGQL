@@ -1,6 +1,5 @@
-const createuser = require('./createuser');
-const updateuser = require('./updateuser');
-const deleteuser = require('./deleteuser');
-//const login = require('./login');
+const createGrade = require('./createGrade')
+const updateGrade = require('./updateGrade')
+const deleteGrade = require('./deleteGrade')
 
-module.exports = { createuser, updateuser, deleteuser }//, //login }
+module.exports = { createGrade, updateGrade, deleteGrade }

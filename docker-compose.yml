@@ -34,3 +34,20 @@ services:
     restart: always
     volumes:
       - "./mongo/data:/data/classroom"
+
+  grade:
+    container_name: grade
+    build: ./back/grade
+    restart: always
+    ports:
+     - "4002:4002"
+    links:
+      - gradedb
+    environment:
+      - URLDB=mongodb://gradedb:27017/grade
+
+  gradedb:
+    image: mongo:4.0
+    restart: always
+    volumes:
+      - "./mongo/data:/data/grade"

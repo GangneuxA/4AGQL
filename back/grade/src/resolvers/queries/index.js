@@ -1,4 +1,5 @@
-const getuser = require('./getuser');
-const getusers = require('./getusers');
+const getGradeByStudent = require('./getGradeByStudent');
+const getGradeByCourse = require('./getGradeByCourse');
+const getAllGrade = require('./getAllGrade');
 
-module.exports = { getuser, getusers }
+module.exports = { getGradeByStudent, getGradeByCourse, getAllGrade }

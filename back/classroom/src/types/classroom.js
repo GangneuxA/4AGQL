@@ -2,7 +2,7 @@ const gql = require("graphql-tag");
 
 const Classroom = gql`
   type Query {
-    getClassroom(name: String): Classroom #return classroom by name
+    getClassroom(name: String): [Classroom] #return classroom by name
     getAllClassroom: [Classroom] #return all classroom
   }
 
