@@ -10,8 +10,8 @@ const users = gql`
   type Users {
     id: ID
     email: String
-    name: String
-    age: Int
+    pseudo: String
+    role: String
     password: String
   }
   type loginOutput {
@@ -21,9 +21,9 @@ const users = gql`
 
 type Mutation {
     login(email: String, password: String): loginOutput
-    createuser(email: String, name: String, age: Int, password: String): Users
+    createuser(email: String, pseudo: String, password: String): Users
     deleteuser(id: ID): Users
-    updateuser(id: ID, name: String, email: String, age: Int, password: String): Users
+    updateuser(id: ID, pseudo: String, email: String, password: String): Users
   }
 `;
 
