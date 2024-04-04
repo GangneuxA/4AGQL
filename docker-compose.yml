@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  users:
+    container_name: users
+    build: ./back/users
+    restart: always
+    ports:
+     - "4000:4000"
+    links:
+      - usersdb
+    environment:
+      - URLDB=mongodb://mongobuy:27017/users
+
+  usersdb:
+    image: mongo:4.0
+    restart: always
+    volumes:
+      - "./mongo/data:/data/users"
