@@ -1,5 +1,7 @@
-const { Users } = require("../../models/Users")
-module.exports = async (_, {id, email, pseudo,password}, {models}) => {
-    const result = await Users.findByIdAndUpdate(id, {pseudo, email,password });
+const { Users } = require("../../models/Users");
+
+module.exports = async (_, { email, pseudo, password }, { req }) => {
+    if(!req.user.id) return "error"
+    const result = await Users.findByIdAndUpdate(req.user.id, { pseudo, email, password });
     return result;
-}
+};

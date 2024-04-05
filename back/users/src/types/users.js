@@ -14,16 +14,17 @@ const users = gql`
     role: String
     password: String
   }
-  type loginOutput {
-    id: ID
-    token: String
+  type Tokens {
+    id: ID!
+    accessToken: String
+    refreshToken: String
   }
 
-type Mutation {
-    login(email: String, password: String): loginOutput
+  type Mutation {
+    login(email: String!, password: String!): Tokens
     createuser(email: String, pseudo: String, password: String): Users
-    deleteuser(id: ID): Users
-    updateuser(id: ID, pseudo: String, email: String, password: String): Users
+    deleteuser: Users
+    updateuser(pseudo: String, email: String, password: String): Users
   }
 `;
 

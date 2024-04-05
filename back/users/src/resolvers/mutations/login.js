@@ -1,16 +1,17 @@
 const { Users } = require("../../models/Users")
+const { comparePromise, setTokens }= require('../../jwt');
+const { GraphQLError } = require('graphql');
+
 module.exports = async (_, {email ,password}, {models}) => {
 
-  const result = await Users.findOne({ email: email });
+  const user = await Users.findOne({ email: email });
 
-  const isValidPassword =  true;
-
-  if (!isValidPassword) {
-    throw new Error("Invalid password");
+  if (user && (await comparePromise(password, user.password))) {
+    const settoken =  setTokens(user.id);
+    return { id: settoken.id , accessToken: settoken.accessToken , refreshToken: settoken.refreshToken  }
+  } else {
+    throw new GraphQLError('Invalid credentials', {
+      extensions: { code: 'UNAUTHENTICATED' },
+    });
   }
-
-  return {
-    id: result.id,
-    token: result.id,
-  };
 }

@@ -5,7 +5,7 @@ const connectDB = require('./config/db');
 const typeDefs = require('./types');
 const resolvers = require('./resolvers');
 const models = require('./models');
-//const context = require('./context');
+const context = require('./context');
 
 connectDB();
 
@@ -19,6 +19,7 @@ const server = new ApolloServer({
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
+  context
   //context: context
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`);

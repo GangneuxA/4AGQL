@@ -1,12 +1,13 @@
 const { Users } = require("../../models/Users")
-module.exports = async (_, {pseudo, email, password}, {models}) => {
+const bcrypt = require('bcrypt');
+module.exports = async (_, {pseudo, email, password}, {}) => {
     
     // Vérifier si l'utilisateur avec le même email existe déjà
     const existingUser = await Users.findOne({ email });
     if (existingUser) {
       throw new Error('User with this email already exists');
     }
-    const hashedPassword = await password;
+    const hashedPassword = await bcrypt.hash(password,10);
     // Si l'utilisateur n'existe pas, créer un nouvel utilisateur
     const newUser = new Users({
       email,
