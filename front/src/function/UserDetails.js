@@ -3,35 +3,35 @@ import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_USER_BY_CRITERIA = gql`
-  query Users($id: ID!) {
-    getuser(id: $id) {
-      id
-      name
-      email
-    }
+query Getme {
+  getme {
+    email
+    id
+    pseudo
+    role
   }
+}
 `;
 
 function UserDetails() {
-  const { id } = useParams(); // Récupérer le critère et la valeur de l'URL
-  console.log(id)
-  const { data, loading, error } = useQuery(GET_USER_BY_CRITERIA, {
-    variables: { id: id }
-  });
+  const { data, loading, error } = useQuery(GET_USER_BY_CRITERIA,{context: {
+      clientName: 'user'
+    }});
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
 
-  const { user } = data;
+  const { getme } = data;
 
   return (
     <div>
-      <h1>Details de l'utilisateur</h1>
+      <h1>Votre profile</h1>
       <p>
-        <strong>ID:</strong> {user.id}<br />
-        <strong>Nom:</strong> {user.name}<br />
-        <strong>Email:</strong> {user.email}<br />
+        <strong>ID:</strong> {getme.id}<br />
+        <strong>Pseudo:</strong> {getme.pseudo}<br />
+        <strong>Email:</strong> {getme.email}<br />
+        <strong>role:</strong> {getme.role}<br />
       </p>
     </div>
   );
