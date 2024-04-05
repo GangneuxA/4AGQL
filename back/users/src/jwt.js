@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const { sign, verify } = jwt;
 
-const setTokens = (id) => {
+const setTokens = (id, role) => {
   // si vous souhaitez inclure plus que l'identifiant de l'utilisateur dans le JWT, incluez-le ici
   const user = { user: { id } };
   const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -12,7 +12,7 @@ const setTokens = (id) => {
   const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: process.env.REFRESH_TOKEN_DURATION,
   });
-  return { id, accessToken, refreshToken };
+  return { id, accessToken, refreshToken ,role };
 };
 
 // Les deux fonctions suivantes encapsulent verify() dans un bloc try/catch pour atténuer les erreurs JWT expirés

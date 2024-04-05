@@ -4,6 +4,7 @@ const users = gql`
   type Query {
     getusers: [Users] #return array of students
     getuser(id: ID): Users #return student by id
+    getme: Users
   }
 
   # Student object
@@ -16,6 +17,7 @@ const users = gql`
   }
   type Tokens {
     id: ID!
+    role: String!
     accessToken: String
     refreshToken: String
   }

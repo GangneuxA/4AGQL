@@ -8,7 +8,6 @@ module.exports = async (_, {pseudo, email, password}, {}) => {
       throw new Error('User with this email already exists');
     }
     const hashedPassword = await bcrypt.hash(password,10);
-    // Si l'utilisateur n'existe pas, créer un nouvel utilisateur
     const newUser = new Users({
       email,
       pseudo,
