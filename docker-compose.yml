@@ -6,7 +6,7 @@ services:
     build: ./back/users
     restart: always
     ports:
-     - "4000:4000"
+      - "4000:4000"
     links:
       - usersdb
     environment:
@@ -27,7 +27,7 @@ services:
     build: ./back/classroom
     restart: always
     ports:
-     - "4001:4001"
+      - "4001:4001"
     links:
       - classroomdb
     environment:
@@ -48,7 +48,7 @@ services:
     build: ./back/grade
     restart: always
     ports:
-     - "4002:4002"
+      - "4002:4002"
     links:
       - gradedb
     environment:
@@ -64,7 +64,7 @@ services:
     volumes:
       - "./mongo/data:/data/grade"
 
-  # front:  
+  # front:
   #   container_name: front
   #   build: ./front
   #   restart: always
@@ -74,3 +74,7 @@ services:
   #     - users
   #     - classroom
   #     - grade
+  #   environment:
+  #     - URLUSER="http://users:4000/"
+  #     - URLGRADE="http://grade:4002/"
+  #     - URLCLASSROOM="http://classroom:4001/"

@@ -1,38 +1,163 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import React, { useState } from "react";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import isAuthenticated from "../utils/isAuthenticated";
+import { useNavigate } from "react-router-dom";
 
 const GET_USER_BY_CRITERIA = gql`
-query Getme {
-  getme {
-    email
-    id
-    pseudo
-    role
+  query Getme {
+    getme {
+      email
+      id
+      pseudo
+      role
+    }
   }
-}
+`;
+
+const UPDATE_USER = gql`
+  mutation UpdateUser($pseudo: String, $email: String, $password: String) {
+    updateuser(pseudo: $pseudo, email: $email, password: $password) {
+      id
+      email
+      pseudo
+      role
+    }
+  }
+`;
+
+const DELETE_USER = gql`
+  mutation DeleteUser {
+    deleteuser {
+      id
+    }
+  }
 `;
 
 function UserDetails() {
-  const { data, loading, error } = useQuery(GET_USER_BY_CRITERIA,{context: {
-      clientName: 'user'
-    }});
+  const { data, loading, error, refetch } = useQuery(GET_USER_BY_CRITERIA, {
+    context: {
+      clientName: "user",
+    },
+  });
+
+  const [updateUser] = useMutation(UPDATE_USER, {
+    context: {
+      clientName: "user",
+    },
+  });
+
+  const [deleteUser] = useMutation(DELETE_USER, {
+    context: {
+      clientName: "user",
+    },
+  });
+
+  const [formData, setFormData] = useState({
+    email: data?.getme?.email || "",
+    pseudo: data?.getme?.pseudo || "",
+    password: "",
+  });
+  const [editMode, setEditMode] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = async () => {
+    try {
+      console.log({
+        pseudo: formData.pseudo,
+        email: formData.email,
+        password: formData.password,
+      });
+      await updateUser({
+        variables: {
+          pseudo: formData.pseudo,
+          email: formData.email,
+          password: formData.password,
+        },
+      });
+      // Rafraîchir les données de l'utilisateur après la mise à jour
+      refetch();
+      // Sortir du mode d'édition
+      setEditMode(false);
+    } catch (error) {
+      console.error("Update user error:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteUser({ variables: { id: data.getme.id } });
+      localStorage.clear();
+      refetch();
+    } catch (error) {
+      console.error("Delete user error:", error);
+    }
+  };
+  const history = useNavigate();
+  if (!isAuthenticated()) {
+    history("/");
+    return null;
+  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
 
   const { getme } = data;
 
   return (
     <div>
       <h1>Votre profile</h1>
-      <p>
-        <strong>ID:</strong> {getme.id}<br />
-        <strong>Pseudo:</strong> {getme.pseudo}<br />
-        <strong>Email:</strong> {getme.email}<br />
-        <strong>role:</strong> {getme.role}<br />
-      </p>
+      {editMode ? (
+        <div>
+          <label>Pseudo:</label>
+          <input
+            type="text"
+            name="pseudo"
+            value={formData.pseudo}
+            onChange={handleChange}
+          />
+          <br />
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <br />
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <br />
+          <button onClick={handleUpdate}>Enregistrer</button>
+          <button onClick={() => setEditMode(false)}>Annuler</button>
+        </div>
+      ) : (
+        <div>
+          <p>
+            <strong>ID:</strong> {getme.id}
+            <br />
+            <strong>Pseudo:</strong> {getme.pseudo}
+            <br />
+            <strong>Email:</strong> {getme.email}
+            <br />
+            <strong>Role:</strong> {getme.role}
+            <br />
+          </p>
+          <button onClick={() => setEditMode(true)}>Modifier</button>
+          <button onClick={handleDelete}>Supprimer</button>
+        </div>
+      )}
     </div>
   );
 }
