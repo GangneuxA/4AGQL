@@ -11,6 +11,10 @@ services:
       - usersdb
     environment:
       - URLDB=mongodb://usersdb:27017/users
+      - ACCESS_TOKEN_SECRET="secret"
+      - REFRESH_TOKEN_SECRET="secret"
+      - ACCESS_TOKEN_DURATION=3600000
+      - REFRESH_TOKEN_DURATION=36000000
 
   usersdb:
     image: mongo:4.0
@@ -28,6 +32,10 @@ services:
       - classroomdb
     environment:
       - URLDB=mongodb://classroomdb:27017/classroom
+      - ACCESS_TOKEN_SECRET="secret"
+      - REFRESH_TOKEN_SECRET="secret"
+      - ACCESS_TOKEN_DURATION=3600000
+      - REFRESH_TOKEN_DURATION=36000000
 
   classroomdb:
     image: mongo:4.0
@@ -45,6 +53,10 @@ services:
       - gradedb
     environment:
       - URLDB=mongodb://gradedb:27017/grade
+      - ACCESS_TOKEN_SECRET="secret"
+      - REFRESH_TOKEN_SECRET="secret"
+      - ACCESS_TOKEN_DURATION=3600000
+      - REFRESH_TOKEN_DURATION=36000000
 
   gradedb:
     image: mongo:4.0

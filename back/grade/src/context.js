@@ -1,9 +1,8 @@
 const { setTokens, validateAccessToken, validateRefreshToken } = require('./jwt');
-const { Users } = require('./models/Users');
 
 const context = async ({ req, res }) => {
-  let id =''
-  let role=''
+  let id 
+  let role
 
   let accessToken = req.headers['x-access-token']?.replace(/^null$/, '');
   let refreshToken = req.headers['x-refresh-token']?.replace(/^null$/, '');
@@ -26,8 +25,11 @@ const context = async ({ req, res }) => {
         console.info(`Invalid/expired access token presented but refreshToken null or missing!`);
       }
     }
-    if (id) req.user = await Users.findById(id);
-    
+    if (id) {
+      req.user = {id, role};
+    }
+    console.log(role)
+    console.log(id)
   }
   return { req, res };
 };
