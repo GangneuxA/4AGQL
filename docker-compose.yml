@@ -64,13 +64,13 @@ services:
     volumes:
       - "./mongo/data:/data/grade"
 
-  front:  
-    container_name: front
-    build: ./front
-    restart: always
-    ports:
-     - "3000:3000"
-    links:
-      - users
-      - classroom
-      - grade
+  # front:  
+  #   container_name: front
+  #   build: ./front
+  #   restart: always
+  #   ports:
+  #    - "3000:3000"
+  #   links:
+  #     - users
+  #     - classroom
+  #     - grade
