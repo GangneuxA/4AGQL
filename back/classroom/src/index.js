@@ -10,8 +10,6 @@ const server = new ApolloServer({ typeDefs, resolvers ,context: {models}});
 dotenv.config();
 connectDB();
 
-//const serverWithMiddleware = applyMiddleware(server, permissions);
-
 startStandaloneServer(server, {
   listen: { port: 4001 },
 }).then(({ url }) => {
