@@ -2,6 +2,9 @@
 
     module.exports = async (_, {id,  name, numberMax}, {}) => {
         try {
+
+            if(!req.user) throw new Error("Unauthorized access!");
+            if(req.user.role === 'teacher') throw new Error("Unauthorized acccess for student")
     
             const existingClassroom = await Classroom.findById(id);
             if (!existingClassroom) {
