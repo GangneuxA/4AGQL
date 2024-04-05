@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { sign, verify } = jwt;
@@ -34,12 +33,4 @@ const validateRefreshToken = (token) => {
   }
 };
 
-const comparePromise = (password, hash) =>
-  new Promise((resolve, reject) => {
-    bcrypt.compare(password, hash, (err, result) => {
-      if (err) reject(err);
-      else resolve(result);
-    });
-  });
-
-module.exports = { setTokens, validateAccessToken, validateRefreshToken, comparePromise };
+module.exports = { setTokens, validateAccessToken, validateRefreshToken };
