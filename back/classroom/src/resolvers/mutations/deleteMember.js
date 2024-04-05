@@ -2,11 +2,26 @@ const { Classroom } = require("../../models/Classroom")
 
 module.exports = async (_, {id, member}, {}) => {
 
-    const classroom = await Classroom.findById(id);
+    try {
 
-    const memberIndex = classroom.member.indexOf(member);
+        const classroom = await Classroom.findById(id);
 
-    classroom.member.splice(memberIndex, 1);
+        if (!classroom) {
+            throw new Error('Classroom with this ID does not exist.');
+        }
 
-    return await classroom.save();
+        const memberIndex = classroom.member.indexOf(member);
+
+        if (memberIndex === -1) {
+            throw new Error('Member not found in the classroom.');
+        }
+
+        classroom.member.splice(memberIndex, 1);
+
+        const updatedClassroom = await classroom.save();
+        
+        return updatedClassroom;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
