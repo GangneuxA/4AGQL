@@ -1,6 +1,6 @@
 
-const { Users } = require('./Users');
+const { Grade } = require('./Grade');
 
 module.exports = [
-    Users
+    Grade
 ]

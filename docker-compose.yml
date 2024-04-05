@@ -10,10 +10,44 @@ services:
     links:
       - usersdb
     environment:
-      - URLDB=mongodb://mongobuy:27017/users
+      - URLDB=mongodb://usersdb:27017/users
 
   usersdb:
     image: mongo:4.0
     restart: always
     volumes:
       - "./mongo/data:/data/users"
+
+  classroom:
+    container_name: classroom
+    build: ./back/classroom
+    restart: always
+    ports:
+     - "4001:4001"
+    links:
+      - classroomdb
+    environment:
+      - URLDB=mongodb://classroomdb:27017/classroom
+
+  classroomdb:
+    image: mongo:4.0
+    restart: always
+    volumes:
+      - "./mongo/data:/data/classroom"
+
+  grade:
+    container_name: grade
+    build: ./back/grade
+    restart: always
+    ports:
+     - "4002:4002"
+    links:
+      - gradedb
+    environment:
+      - URLDB=mongodb://gradedb:27017/grade
+
+  gradedb:
+    image: mongo:4.0
+    restart: always
+    volumes:
+      - "./mongo/data:/data/grade"
