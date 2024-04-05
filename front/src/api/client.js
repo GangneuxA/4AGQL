@@ -20,14 +20,12 @@ const authLink = setContext((_, { headers }) => {
 const userHttpLink = new HttpLink({
   uri: "http://localhost:4000/",
 })
-const grade = new HttpLink({
+const gradeHttpLink = new HttpLink({
 uri: "http://localhost:4002/",
-cache: new InMemoryCache()
 })
 
-const classeroom = new HttpLink({
+const classeroomHttpLink = new HttpLink({
 uri: "http://localhost:4001/",
-cache: new InMemoryCache()
 })
 
 const userLink = authLink.concat(userHttpLink);
@@ -43,7 +41,7 @@ export const client = new ApolloClient({
       operation => operation.getContext().clientName === 'grade',
       gradeLink,
       ApolloLink.split(
-        operation => operation.getContext().clientName === 'classromm',
+        operation => operation.getContext().clientName === 'classroom',
         classeroomLink
       )
     )
