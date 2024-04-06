@@ -13,12 +13,14 @@ services:
       - URLDB=mongodb://usersdb:27017/users
       - ACCESS_TOKEN_SECRET="secret"
       - REFRESH_TOKEN_SECRET="secret"
-      - ACCESS_TOKEN_DURATION=3600000
+      - ACCESS_TOKEN_DURATION=36000000
       - REFRESH_TOKEN_DURATION=36000000
 
   usersdb:
     image: mongo:4.0
     restart: always
+    ports:
+      - "27017:27017"
     volumes:
       - "./mongo/data:/data/users"
 
@@ -34,7 +36,7 @@ services:
       - URLDB=mongodb://classroomdb:27017/classroom
       - ACCESS_TOKEN_SECRET="secret"
       - REFRESH_TOKEN_SECRET="secret"
-      - ACCESS_TOKEN_DURATION=3600000
+      - ACCESS_TOKEN_DURATION=36000000
       - REFRESH_TOKEN_DURATION=36000000
 
   classroomdb:
@@ -55,7 +57,7 @@ services:
       - URLDB=mongodb://gradedb:27017/grade
       - ACCESS_TOKEN_SECRET="secret"
       - REFRESH_TOKEN_SECRET="secret"
-      - ACCESS_TOKEN_DURATION=3600000
+      - ACCESS_TOKEN_DURATION=36000000
       - REFRESH_TOKEN_DURATION=36000000
 
   gradedb:
@@ -75,6 +77,6 @@ services:
   #     - classroom
   #     - grade
   #   environment:
-  #     - URLUSER="http://users:4000/"
-  #     - URLGRADE="http://grade:4002/"
-  #     - URLCLASSROOM="http://classroom:4001/"
+  #     - REACT_APP_URLUSER="http://users:4000/"
+  #     - REACT_APP_URLGRADE="http://grade:4002/"
+  #     - REACT_APP_URLCLASSROOM="http://classroom:4001/"

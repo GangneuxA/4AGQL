@@ -10,6 +10,7 @@ const authLink = setContext((_, { headers }) => {
   const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
   console.log(accessToken);
+  console.log(refreshToken);
   if (accessToken) {
     return {
       headers: {

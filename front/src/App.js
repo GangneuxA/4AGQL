@@ -7,6 +7,8 @@ import LoginForm from "./function/login.js";
 import DetailClassroom from "./function/DetailClassroom.js";
 import RegisterPage from "./function/register.js";
 import LogoutButton from "./function/logout.js";
+import MyNotesPage from "./function/mynotes.js";
+import GradeDetails from "./function/GradeDetails.js";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/logout" element={<LogoutButton />} />
+        <Route path="/mynote" element={<MyNotesPage />} />
+        <Route path="/grades" element={<GradeDetails />} />
         <Route path="/detailCLassroom" element={<DetailClassroom />} />
       </Routes>
     </Router>
