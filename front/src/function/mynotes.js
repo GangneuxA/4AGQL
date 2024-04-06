@@ -18,6 +18,7 @@ const MyNotesPage = () => {
     let path = `/login`;
     history(path);
   };
+
   const [studentId, setStudentId] = useState("");
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const MyNotesPage = () => {
     } else {
       return (
         <div>
-          <p>Tu n'est pas connecté</p>
+          <p>Tu n'es pas connecté</p>
           <button onClick={handleBackToHome}>login</button>
         </div>
       );

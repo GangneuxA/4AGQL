@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import isAuthenticated from "../utils/isAuthenticated";
+import isTeacher from "../utils/isTeacher";
 
 const GET_ALL_GRADE = gql`
   query GetAllGrade {
@@ -66,6 +69,7 @@ const UPDATE_GRADE = gql`
 `;
 
 const GradeDetails = () => {
+  const history = useNavigate();
   const [grades, setGrades] = useState([]);
   const [newGrade, setNewGrade] = useState({
     student: "",
@@ -153,6 +157,32 @@ const GradeDetails = () => {
   if (error) return <p>Error: {error.message}</p>;
   const students = Array.from(new Set(grades.map((grade) => grade.student)));
   const courses = Array.from(new Set(grades.map((grade) => grade.course)));
+
+  const handleBackTolink = () => {
+    let path = `/login`;
+    history(path);
+  };
+  const handleBackToHome = () => {
+    let path = `/login`;
+    history(path);
+  };
+
+  if (!isAuthenticated()) {
+    return (
+      <div>
+        <p>Tu n'es pas connecté</p>
+        <button onClick={handleBackTolink}>login</button>
+      </div>
+    );
+  }
+  if (!isTeacher()) {
+    return (
+      <div>
+        <p>tu n'est pas teacher tu ne peut pas modifer les notes</p>
+        <button onClick={handleBackToHome}>login</button>
+      </div>
+    );
+  }
   return (
     <div className="grade-container">
       <h1>Grade Details</h1>
