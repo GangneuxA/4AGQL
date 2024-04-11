@@ -28,10 +28,6 @@ function Home() {
 
   return (
     <div>
-        <button color="primary" className="px-4"
-          onClick={() => routeChange('login')}>
-          Login
-        </button>
         <h1>Classroom Search</h1>
         <h1>Classroom List</h1>
         <ul>

@@ -163,7 +163,7 @@ const GradeDetails = () => {
     history(path);
   };
   const handleBackToHome = () => {
-    let path = `/login`;
+    let path = `/`;
     history(path);
   };
 
@@ -179,7 +179,7 @@ const GradeDetails = () => {
     return (
       <div>
         <p>tu n'est pas teacher tu ne peut pas modifer les notes</p>
-        <button onClick={handleBackToHome}>login</button>
+        <button onClick={handleBackToHome}>Home</button>
       </div>
     );
   }
