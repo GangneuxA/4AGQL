@@ -14,15 +14,6 @@ const GET_ALL_GRADE = gql`
     }
   }
 `;
-
-const GET_USERS = gql`
-  query Getusers {
-    getusers {
-      id
-      pseudo
-    }
-  }
-`;
 const GET_GRADE_BY_STUDENT = gql`
   query GetGradeByStudent($student: String) {
     getGradeByStudent(student: $student) {
@@ -88,7 +79,6 @@ const GradeDetails = () => {
   const [selectedGradeId, setSelectedGradeId] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
-  const [users, setUsers] = useState([]);
 
   const [addGrade] = useMutation(ADD_GRADE, {
     context: {
@@ -103,11 +93,6 @@ const GradeDetails = () => {
   const [deleteGrade] = useMutation(DELETE_GRADE, {
     context: {
       clientName: "grade",
-    },
-  });
-  const { data: userData } = useQuery(GET_USERS, {
-    context: {
-      clientName: "user",
     },
   });
   const { loading, error, data, refetch } = useQuery(
@@ -131,12 +116,6 @@ const GradeDetails = () => {
       );
     }
   }, [data]);
-
-  useEffect(() => {
-    if (userData) {
-      setUsers(userData.getusers);
-    }
-  }, [userData]);
 
   const handleDelete = async (id) => {
     try {
@@ -176,6 +155,7 @@ const GradeDetails = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  const students = Array.from(new Set(grades.map((grade) => grade.student)));
   const courses = Array.from(new Set(grades.map((grade) => grade.course)));
 
   const handleBackTolink = () => {
@@ -209,19 +189,14 @@ const GradeDetails = () => {
       <div className="add-grade-section">
         <h2>Add Grade</h2>
         <div className="input-group">
-          <select
+          <input
+            type="text"
+            placeholder="Student"
             value={newGrade.student}
             onChange={(e) =>
               setNewGrade({ ...newGrade, student: e.target.value })
             }
-          >
-            <option value="">Select User</option>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.pseudo}
-              </option>
-            ))}
-          </select>
+          />
           <input
             type="text"
             placeholder="Course"
@@ -248,9 +223,9 @@ const GradeDetails = () => {
           onChange={(e) => setSelectedStudent(e.target.value)}
         >
           <option value="">Filter by Student</option>
-          {users.map((student) => (
-            <option key={student.id} value={student.id}>
-              {student.pseudo}
+          {students.map((student) => (
+            <option key={student} value={student}>
+              {student}
             </option>
           ))}
         </select>
@@ -272,10 +247,7 @@ const GradeDetails = () => {
           <div key={gradeInfo.id} className="grade-item">
             <h3>Grade</h3>
             <p>ID: {gradeInfo.id}</p>
-            <p>
-              Student:{" "}
-              {users.find((user) => user.id === gradeInfo.student)?.pseudo}
-            </p>
+            <p>Student: {gradeInfo.student}</p>
             <p>Course: {gradeInfo.course}</p>
             <p>Grade: {gradeInfo.grade}</p>
             <div className="button-group">

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import isAuthenticated from "../utils/isAuthenticated";
 import { useNavigate } from "react-router-dom";
+import { Container, Header, Button, Input } from "fomantic-ui-react";
 
 const GET_USER_BY_CRITERIA = gql`
   query Getme {
@@ -111,36 +112,36 @@ function UserDetails() {
   const { getme } = data;
 
   return (
-    <div>
-      <h1>Votre profile</h1>
+    <Container>
+      <Header as="h1">Votre profil</Header>
       {editMode ? (
         <div>
-          <label>Pseudo:</label>
-          <input
+          <Input
+            label="Pseudo"
             type="text"
             name="pseudo"
             value={formData.pseudo}
             onChange={handleChange}
           />
           <br />
-          <label>Email:</label>
-          <input
+          <Input
+            label="Email"
             type="text"
             name="email"
             value={formData.email}
             onChange={handleChange}
           />
           <br />
-          <label>Password:</label>
-          <input
+          <Input
+            label="Password"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
           />
           <br />
-          <button onClick={handleUpdate}>Enregistrer</button>
-          <button onClick={() => setEditMode(false)}>Annuler</button>
+          <Button primary onClick={handleUpdate}>Enregistrer</Button>
+          <Button onClick={() => setEditMode(false)}>Annuler</Button>
         </div>
       ) : (
         <div>
@@ -154,11 +155,11 @@ function UserDetails() {
             <strong>Role:</strong> {getme.role}
             <br />
           </p>
-          <button onClick={() => setEditMode(true)}>Modifier</button>
-          <button onClick={handleDelete}>Supprimer</button>
+          <Button primary onClick={() => setEditMode(true)}>Modifier</Button>
+          <Button negative onClick={handleDelete}>Supprimer</Button>
         </div>
       )}
-    </div>
+    </Container>
   );
 }
 

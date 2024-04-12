@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import { Container, Header, List } from "fomantic-ui-react";
 
 const GET_GRADE_BY_STUDENT = gql`
   query GetGradeByStudent($student: String!) {
@@ -47,15 +48,19 @@ const MyNotesPage = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
-      <h1>My Grades</h1>
-      {data.getGradeByStudent.map((gradeInfo) => (
-        <div key={gradeInfo.id}>
-          <p>Course: {gradeInfo.course}</p>
-          <p>Grade: {gradeInfo.grade}</p>
-        </div>
-      ))}
-    </div>
+    <Container>
+      <Header as="h1">My Grades</Header>
+      <List divided relaxed>
+        {data.getGradeByStudent.map((gradeInfo) => (
+          <List.Item key={gradeInfo.id}>
+            <List.Content>
+              <List.Header>Course: {gradeInfo.course}</List.Header>
+              <List.Description>Grade: {gradeInfo.grade}</List.Description>
+            </List.Content>
+          </List.Item>
+        ))}
+      </List>
+    </Container>
   );
 };
 

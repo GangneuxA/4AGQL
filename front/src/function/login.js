@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, gql } from "@apollo/client";
 import isAuthenticated from "../utils/isAuthenticated";
+import { Form, Input, Button, Message } from "fomantic-ui-react";
 
 const LOGIN_USER = gql`
   mutation Login($email: String!, $password: String!) {
@@ -59,22 +60,32 @@ function LoginForm() {
     );
   }
   return (
-    <div>
-      <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Email"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-      />
-      <button onClick={handleLogin}>Login</button>
-      {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+    <div className="ui container">
+      <h2 className="ui header">Login</h2>
+      <Form>
+        <Form.Field>
+          <label>Email</label>
+          <Input
+            type="text"
+            placeholder="Enter email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          <Input
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
+        </Form.Field>
+        <Button primary onClick={handleLogin}>
+          Login
+        </Button>
+        {loginError && <Message negative>{loginError}</Message>}
+      </Form>
     </div>
   );
 }

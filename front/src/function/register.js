@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import isAuthenticated from "../utils/isAuthenticated";
+import { Form, Input, Button, Message } from "fomantic-ui-react";
 
 const CREATE_USER = gql`
   mutation Createuser($email: String, $pseudo: String, $password: String) {
@@ -60,53 +61,49 @@ const RegisterPage = () => {
   }
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="ui container">
+      <h2 className="ui header">Register</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Field>
           <label>Email:</label>
-          <input
+          <Input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
+        </Form.Field>
+        <Form.Field>
           <label>Pseudo:</label>
-          <input
+          <Input
             type="text"
             name="pseudo"
             value={formData.pseudo}
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
+        </Form.Field>
+        <Form.Field>
           <label>Password:</label>
-          <input
+          <Input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
           />
-        </div>
-        <button type="submit" disabled={loading}>
+        </Form.Field>
+        <Button type="submit" primary disabled={loading}>
           Register
-        </button>
-        <button
-          color="primary"
-          className="px-4"
-          onClick={() => routeChange("login")}
-        >
-          login
-        </button>
-      </form>
+        </Button>
+        <Button color="primary" className="px-4" onClick={() => routeChange("login")}>
+          Login
+        </Button>
+      </Form>
       {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {data && <p>User created successfully!</p>}
+      {error && <Message negative>Error: {error.message}</Message>}
+      {data && <Message positive>User created successfully!</Message>}
     </div>
   );
 };

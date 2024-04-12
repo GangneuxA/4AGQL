@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import { Container, Header, List } from "fomantic-ui-react";
 
 const GET_CLASSROOM_BY_NAME = gql`
     query GetClassroomByName($name: String) {
@@ -63,22 +64,22 @@ const ClassroomDetail = () => {
     if (error) return <p>Error: {error.message}</p>;
     
     return (
-        <div className="member-list">
-            {classroom.map((classroomInfo) => (
+        <Container className="member-list">
+        {classroom.map((classroomInfo) => (
             <div key={classroomInfo.id} className="classroom-item">
-                <h3>Classroom {classroomInfo.name}</h3>
-                <p>numberMax: {classroomInfo.numberMax}</p>
-                <p>Members:</p>
-                <ul>
+            <Header as="h3">Classroom {classroomInfo.name}</Header>
+            <p>numberMax: {classroomInfo.numberMax}</p>
+            <p>Members:</p>
+            <List bulleted>
                 {classroomInfo.member.map((member, index) => (
-                    <li key={index}>
+                <List.Item key={index}>
                     {users.find((user) => user.id === member)?.pseudo}
-                    </li>
+                </List.Item>
                 ))}
-                </ul>
+            </List>
             </div>
-            ))}
-        </div>
+        ))}
+        </Container>
     );
 };
 

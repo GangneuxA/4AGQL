@@ -27,24 +27,30 @@ function Home() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-        <h1>Classroom Search</h1>
-        <h1>Classroom List</h1>
-        <ul>
-          {data.getAllClassroom.map(classroom => (
-            <li key={classroom.id}>
-              <div>
-                <span>ID: {classroom.id}</span><br />
-                <span>Name: {classroom.name}</span><br />
-                <span>NumberMax: {classroom.numberMax}</span><br />
+    <div className="ui container">
+      <h1 className="ui header">Classroom Search</h1>
+      <div className="ui relaxed divided list">
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+        {data &&
+          data.getAllClassroom.map((classroom) => (
+            <div key={classroom.id} className="item">
+              <div className="content">
+                <span className="header">Name: {classroom.name}</span>
+                <div className="description">
+                  <p>ID: {classroom.id}</p>
+                  <p>NumberMax: {classroom.numberMax}</p>
+                </div>
+                <button
+                  className="ui primary button"
+                  onClick={() => routeChange(classroom.name)}
+                >
+                  Detail
+                </button>
               </div>
-              <button color="primary" className="px-4"
-                onClick={() => routeChange(classroom.name)}>
-                Detail
-              </button>
-            </li>
+            </div>
           ))}
-        </ul>
+      </div>
     </div>
   );
 }
