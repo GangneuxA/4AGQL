@@ -1,10 +1,6 @@
-const { Users } = require("../../models/Users")
+const { Users } = require("../../models/Users");
 
-module.exports = async (_, {input}, {}) => {
-    return await Users.find({});
-}
-
-
-
-
-
+module.exports = async (_, { input }, { req }) => {
+  //   console(req.users);
+  return await Users.find({});
+};
