@@ -38,8 +38,6 @@ const context = async ({ req, res }) => {
     if (id) {
       req.user = { id, role };
     }
-    console.log(role);
-    console.log(id);
   }
   return { req, res };
 };
