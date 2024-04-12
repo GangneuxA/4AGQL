@@ -1,7 +1,6 @@
 const { Grade } = require("../../models/Grade")
 
-module.exports = async (_, {}, {req}) => {
-    console.log(req.user)
+module.exports = async (_, {}, {}) => {
     return await Grade.find({}).sort({course: 1});
 }
 

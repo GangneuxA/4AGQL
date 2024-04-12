@@ -18,8 +18,8 @@ function Home() {
 
   const history = useNavigate();
   
-  const routeChange = (param) =>{ 
-    let path = `/${param}`; 
+  const routeChange = (name) =>{ 
+    let path = `/detailclassroom/${name}`; 
     history(path);
   }
 
@@ -39,7 +39,7 @@ function Home() {
                 <span>NumberMax: {classroom.numberMax}</span><br />
               </div>
               <button color="primary" className="px-4"
-                onClick={() => routeChange('detailCLassroom')}>
+                onClick={() => routeChange(classroom.name)}>
                 Detail
               </button>
             </li>

@@ -39,6 +39,7 @@ function LoginForm() {
       localStorage.setItem("role", role);
       setLoginError("");
       history("/");
+      window.location.reload();
     } catch (error) {
       console.error("Login error:", error);
       setLoginError(error.message);
@@ -57,7 +58,6 @@ function LoginForm() {
       </div>
     );
   }
-
   return (
     <div>
       <h2>Login</h2>

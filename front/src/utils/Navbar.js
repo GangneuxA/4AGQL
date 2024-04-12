@@ -1,6 +1,6 @@
 import React from 'react';
-import 'fomantic-ui-css/semantic.min.css'; // Importer les styles Fomantic UI
-import { Link } from 'react-router-dom'; // Assurez-vous d'importer Link si vous utilisez react-router-dom
+import 'fomantic-ui-css/semantic.min.css'; 
+import { Link } from 'react-router-dom'; 
 import isAuthenticated from "../utils/isAuthenticated";
 import isTeacher from './isTeacher';
 
