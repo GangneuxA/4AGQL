@@ -27,6 +27,7 @@ const users = gql`
     createuser(email: String, pseudo: String, password: String): Users
     deleteuser: Users
     updateuser(pseudo: String, email: String, password: String): Users
+    setteacher: Users
   }
 `;
 
