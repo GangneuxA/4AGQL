@@ -53,3 +53,19 @@ grades: http://localhost:4002
 classrooms: http://localhost:4001
 
 ### Tests
+
+All tests of querys and mutations is available
+
+launch this command for launch the project with exposed port to display the docs
+
+```Bash
+docker-compose up
+
+```
+
+in the folder back/grades , back/users or back/classroom launch
+
+```Bash
+npm test
+
+```
