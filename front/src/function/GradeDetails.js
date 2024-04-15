@@ -184,75 +184,99 @@ const GradeDetails = () => {
     );
   }
   return (
-    <div className="grade-container">
-      <h1>Grade Details</h1>
-      <div className="add-grade-section">
-        <h2>Add Grade</h2>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Student"
-            value={newGrade.student}
-            onChange={(e) =>
-              setNewGrade({ ...newGrade, student: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="Course"
-            value={newGrade.course}
-            onChange={(e) =>
-              setNewGrade({ ...newGrade, course: e.target.value })
-            }
-          />
-          <input
-            type="number"
-            placeholder="Grade"
-            value={newGrade.grade}
-            onChange={(e) =>
-              setNewGrade({ ...newGrade, grade: parseInt(e.target.value) })
-            }
-          />
-          <button onClick={handleAddGrade}>Add</button>
+    <div className="ui container">
+      <h1 className="ui header">Grade Details</h1>
+      <div className="ui segment">
+        <h2 className="ui header">Add Grade</h2>
+        <div className="ui form">
+          <div className="fields">
+            <div className="field">
+              <input
+                type="text"
+                placeholder="Student"
+                value={newGrade.student}
+                onChange={(e) =>
+                  setNewGrade({ ...newGrade, student: e.target.value })
+                }
+              />
+            </div>
+            <div className="field">
+              <input
+                type="text"
+                placeholder="Course"
+                value={newGrade.course}
+                onChange={(e) =>
+                  setNewGrade({ ...newGrade, course: e.target.value })
+                }
+              />
+            </div>
+            <div className="field">
+              <input
+                type="number"
+                placeholder="Grade"
+                value={newGrade.grade}
+                onChange={(e) =>
+                  setNewGrade({ ...newGrade, grade: parseInt(e.target.value) })
+                }
+              />
+            </div>
+            <button className="ui button" onClick={handleAddGrade}>
+              Add
+            </button>
+          </div>
         </div>
       </div>
-      <h2>List of Grades</h2>
-      <div>
-        <select
-          value={selectedStudent}
-          onChange={(e) => setSelectedStudent(e.target.value)}
-        >
-          <option value="">Filter by Student</option>
-          {students.map((student) => (
-            <option key={student} value={student}>
-              {student}
-            </option>
-          ))}
-        </select>
-        <p>Or</p>
-        <select
-          value={selectedCourse}
-          onChange={(e) => setSelectedCourse(e.target.value)}
-        >
-          <option value="">Filter by Course</option>
-          {courses.map((course) => (
-            <option key={course} value={course}>
-              {course}
-            </option>
-          ))}
-        </select>
+      <h2 className="ui header">List of Grades</h2>
+      <div className="ui segment">
+        <div className="ui form">
+          <div className="fields">
+            <div className="field">
+              <select
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+              >
+                <option value="">Filter by Student</option>
+                {students.map((student) => (
+                  <option key={student} value={student}>
+                    {student}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <p>Or</p>
+            </div>
+            <div className="field">
+              <select
+                value={selectedCourse}
+                onChange={(e) => setSelectedCourse(e.target.value)}
+              >
+                <option value="">Filter by Course</option>
+                {courses.map((course) => (
+                  <option key={course} value={course}>
+                    {course}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="grade-list">
+      <div className="ui segment">
         {grades.map((gradeInfo) => (
-          <div key={gradeInfo.id} className="grade-item">
+          <div key={gradeInfo.id} className="ui segment">
             <h3>Grade</h3>
             <p>ID: {gradeInfo.id}</p>
             <p>Student: {gradeInfo.student}</p>
             <p>Course: {gradeInfo.course}</p>
             <p>Grade: {gradeInfo.grade}</p>
-            <div className="button-group">
-              <button onClick={() => handleDelete(gradeInfo.id)}>Delete</button>
-              <button onClick={() => handleUpdate(gradeInfo.id)}>Update</button>
+            <div className="ui buttons">
+              <button className="ui button" onClick={() => handleDelete(gradeInfo.id)}>
+                Delete
+              </button>
+              <button className="ui button" onClick={() => handleUpdate(gradeInfo.id)}>
+                Update
+              </button>
               {selectedGradeId === gradeInfo.id && (
                 <div>
                   <input
@@ -266,6 +290,7 @@ const GradeDetails = () => {
                     }
                   />
                   <button
+                    className="ui button"
                     onClick={() =>
                       handleUpdateGrade(gradeInfo.id, newGrade.grade)
                     }

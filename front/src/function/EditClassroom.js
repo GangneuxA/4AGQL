@@ -245,108 +245,139 @@ const Classroom = () => {
   }
 
   return (
-    <div className="classroom-container">
-      <h1>Classroom Details</h1>
-      <div className="add-classroom-section">
-        <h2>Add Classroom</h2>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="name"
-            value={newClassroom.name}
-            onChange={(e) =>
-              setNewClassroom({ ...newClassroom, name: e.target.value })
-            }
-          />
-          <input
-            type="number"
-            placeholder="numberMax"
-            value={newClassroom.numberMax}
-            onChange={(e) =>
-              setNewClassroom({ ...newClassroom, numberMax: parseInt(e.target.value) })
-            }
-          />
-          <button onClick={handleAddClassroom}>Add</button>
+     <div className="ui container">
+      <h1 className="ui header">Classroom Details</h1>
+      <div className="ui segment">
+        <h2 className="ui header">Add Classroom</h2>
+        <div className="ui form">
+          <div className="fields">
+            <div className="field">
+              <input
+                type="text"
+                placeholder="Name"
+                value={newClassroom.name}
+                onChange={(e) =>
+                  setNewClassroom({ ...newClassroom, name: e.target.value })
+                }
+              />
+            </div>
+            <div className="field">
+              <input
+                type="number"
+                placeholder="Max Number"
+                value={newClassroom.numberMax}
+                onChange={(e) =>
+                  setNewClassroom({
+                    ...newClassroom,
+                    numberMax: parseInt(e.target.value),
+                  })
+                }
+              />
+            </div>
+            <button className="ui button" onClick={handleAddClassroom}>
+              Add
+            </button>
+          </div>
         </div>
       </div>
-      <h2>List of Classroom</h2>
-      <div>
-        <select
-          value={selectedClassroomID}
-          onChange={(e) => setSelectedClassroomID(e.target.value)}
-        >
-          <option value="">Filter by Classroom</option>
-          {classroombyname.map((classroom) => (
-            <option key={classroom} value={classroom}>
-              {classroom}
-            </option>
-          ))}
-        </select>
+      <h2 className="ui header">List of Classrooms</h2>
+      <div className="ui segment">
+        <div className="ui form">
+          <div className="field">
+            <select
+              value={selectedClassroomID}
+              onChange={(e) => setSelectedClassroomID(e.target.value)}
+            >
+              <option value="">Filter by Classroom</option>
+              {classroombyname.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
-      <div className="classroom-list">
+      <div className="ui segment">
         {classroom.map((classroomInfo) => (
-          <div key={classroomInfo.id} className="classroom-item">
+          <div key={classroomInfo.id} className="ui segment">
             <h3>Classroom</h3>
             <p>ID: {classroomInfo.id}</p>
-            <p>name: {classroomInfo.name}</p>
-            <p>numberMax: {classroomInfo.numberMax}</p>
+            <p>Name: {classroomInfo.name}</p>
+            <p>Max Number: {classroomInfo.numberMax}</p>
             <p>Members:</p>
             <ul>
               {classroomInfo.member.map((member, index) => (
                 <li key={index}>
                   {users.find((user) => user.id === member)?.pseudo}
-                  <button onClick={() => handleDeleteMember(classroomInfo.id, member)}>Delete</button>
+                  <button className="ui button" onClick={() => handleDeleteMember(classroomInfo.id, member)}>
+                    Delete
+                  </button>
                 </li>
               ))}
             </ul>
-            <select
-              value={memberId}
-              onChange={(e) =>
-                handleInputChange(e)
-              }
-            >
-              <option value="">Select User</option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.pseudo}
-                </option>
-              ))}
-            </select>
-            <div className="button-group">
-              <button onClick={() => handleAddMember(classroomInfo.id)}>AddMember</button>
-              <button onClick={() => handleDelete(classroomInfo.id)}>Delete</button>
-              <button onClick={() => handleUpdate(classroomInfo.id)}>Update</button>
-              {selectedClassroomID === classroomInfo.id && (
-                <div>
-                  <input
-                    type="name"
-                    value={newClassroom.name}
-                    onChange={(e) =>
-                      setNewClassroom({
-                        ...newClassroom,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                  <input
-                    type="number"
-                    value={newClassroom.numberMax}
-                    onChange={(e) =>
-                      setNewClassroom({
-                        ...newClassroom,
-                        numberMax: parseInt(e.target.value),
-                      })
-                    }
-                  />
-                  <button
-                    onClick={() =>
-                      handleUpdateClassroom(classroomInfo.id, newClassroom.name, newClassroom.numberMax)
-                    }
+            <div className="ui form">
+              <div className="fields">
+                <div className="field">
+                  <select
+                    value={memberId}
+                    onChange={handleInputChange}
                   >
-                    Save
+                    <option value="">Select User</option>
+                    {users.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.pseudo}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="field">
+                  <button className="ui button" onClick={() => handleAddMember(classroomInfo.id)}>
+                    Add Member
                   </button>
                 </div>
-              )}
+                <div className="field">
+                  <button className="ui button" onClick={() => handleDelete(classroomInfo.id)}>
+                    Delete
+                  </button>
+                </div>
+                <div className="field">
+                  <button className="ui button" onClick={() => handleUpdate(classroomInfo.id)}>
+                    Update
+                  </button>
+                </div>
+                {selectedClassroomID === classroomInfo.id && (
+                  <div className="fields">
+                    <div className="field">
+                      <input
+                        type="text"
+                        value={newClassroom.name}
+                        onChange={(e) =>
+                          setNewClassroom({
+                            ...newClassroom,
+                            name: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="field">
+                      <input
+                        type="number"
+                        value={newClassroom.numberMax}
+                        onChange={(e) =>
+                          setNewClassroom({
+                            ...newClassroom,
+                            numberMax: parseInt(e.target.value),
+                          })
+                        }
+                      />
+                    </div>
+                    <button className="ui button" onClick={() => handleUpdateClassroom(classroomInfo.id, newClassroom.name, newClassroom.numberMax)}>
+                      Save
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}
