@@ -11,7 +11,9 @@ In docker, we have this architecture
 
 ## Lauch this project
 
-For launch use this command :
+### Lauch the back
+
+in terminal to launch the back use this command :
 
 ```Bash
 docker-compose up
@@ -26,13 +28,27 @@ for the users on http://localhost:4000
 for the grades on http://localhost:4002
 for the classrooms on http://localhost:4001
 
-The front in react is ready on http://localhost:3000
+### Lauch the front
 
-## Recreate an image
+in folder create .env with this lines :
 
 ```Bash
-docker-compose build "nameOfimage"
+REACT_APP_URLUSER="http://localhost:4000/"
+REACT_APP_URLGRADE="http://localhost:4002/"
+REACT_APP_URLCLASSROOM="http://localhost:4001/"
 ```
+
+in another terminal
+For launch the front use this commands :
+
+```Bash
+cd front
+npm install
+npm start
+
+```
+
+The front in react is ready on http://localhost:3000
 
 ## Docs
 
@@ -69,3 +85,9 @@ in the folder back/grades , back/users or back/classroom launch
 npm test
 
 ```
+
+### Security
+
+For the security the Appollo servers have CORS to accept only request on local ok react app.
+
+All mution in apollo server have JWT token with x-access-token and x-refresh-token for generate this. you need to connect with graphql user.

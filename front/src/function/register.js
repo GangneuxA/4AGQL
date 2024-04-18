@@ -97,7 +97,11 @@ const RegisterPage = () => {
         <Button type="submit" primary disabled={loading}>
           Register
         </Button>
-        <Button color="primary" className="px-4" onClick={() => routeChange("login")}>
+        <Button
+          color="primary"
+          className="px-4"
+          onClick={() => routeChange("login")}
+        >
           Login
         </Button>
       </Form>

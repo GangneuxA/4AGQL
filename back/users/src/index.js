@@ -1,5 +1,11 @@
 const { ApolloServer } = require("@apollo/server");
-const { startStandaloneServer } = require("@apollo/server/standalone");
+const { expressMiddleware } = require("@apollo/server/express4");
+const {
+  ApolloServerPluginDrainHttpServer,
+} = require("@apollo/server/plugin/drainHttpServer");
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
 const typeDefs = require("./types");
@@ -8,19 +14,35 @@ const models = require("./models");
 const context = require("./context");
 
 connectDB();
+(async () => {
+  const app = express();
+  const httpServer = http.createServer(app);
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    context: { models },
+    debug: true,
+    introspection: true,
+  });
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: { models },
-  debug: true,
-  introspection: true,
-});
+  await server.start();
 
-startStandaloneServer(server, {
-  listen: { port: 4000 },
-  context,
-  //context: context
-}).then(({ url }) => {
-  console.log(`Server ready at ${url}`);
-});
+  app.use(
+    "/",
+    cors({
+      origin: [
+        "http://localhost:80",
+        "http://localhost:3000",
+        "http://localhost:443",
+      ],
+      credentials: true,
+    }),
+    express.json(),
+    expressMiddleware(server, {
+      context,
+    })
+  );
+  await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
+  console.log(`🚀 Server ready at http://localhost:4000/`);
+})();

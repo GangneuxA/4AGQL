@@ -7,8 +7,8 @@ services:
     restart: always
     ports:
       - "4000:4000"
-    links:
-      - usersdb
+    networks:
+      - usersnt
     environment:
       - URLDB=mongodb://usersdb:27017/users
       - ACCESS_TOKEN_SECRET="secret"
@@ -19,10 +19,12 @@ services:
   usersdb:
     image: mongo:4.0
     restart: always
+    networks:
+      - usersnt
     ports:
       - "27017:27017"
     volumes:
-      - "./mongo/data:/data/users"
+      - "./mongo/data/users:/data/db"
 
   classroom:
     container_name: classroom
@@ -30,8 +32,8 @@ services:
     restart: always
     ports:
       - "4001:4001"
-    links:
-      - classroomdb
+    networks:
+      - classroomnt
     environment:
       - URLDB=mongodb://classroomdb:27017/classroom
       - ACCESS_TOKEN_SECRET="secret"
@@ -42,8 +44,10 @@ services:
   classroomdb:
     image: mongo:4.0
     restart: always
+    networks:
+      - classroomnt
     volumes:
-      - "./mongo/data:/data/classroom"
+      - "./mongo/data/classroom:/data/db"
 
   grade:
     container_name: grade
@@ -51,8 +55,8 @@ services:
     restart: always
     ports:
       - "4002:4002"
-    links:
-      - gradedb
+    networks:
+      - gradent
     environment:
       - URLDB=mongodb://gradedb:27017/grade
       - ACCESS_TOKEN_SECRET="secret"
@@ -63,20 +67,12 @@ services:
   gradedb:
     image: mongo:4.0
     restart: always
+    networks:
+      - gradent
     volumes:
-      - "./mongo/data:/data/grade"
+      - "./mongo/data/grade:/data/db"
 
-  front:
-    container_name: front
-    build: ./front
-    restart: always
-    ports:
-      - "3000:3000"
-    links:
-      - users
-      - classroom
-      - grade
-    environment:
-      REACT_APP_URLUSER: http://localhost:4000/
-      REACT_APP_URLGRADE: http://localhost:4002/
-      REACT_APP_URLCLASSROOM: http://localhost:4001/
+networks:
+  usersnt:
+  gradent:
+  classroomnt:

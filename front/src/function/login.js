@@ -15,21 +15,27 @@ const LOGIN_USER = gql`
   }
 `;
 
-function LoginForm() {
-  const history = useNavigate();
-  const [loginUser] = useMutation(LOGIN_USER, {
+const LoginForm = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [loginUser, { loading, error, data }] = useMutation(LOGIN_USER, {
     context: {
       clientName: "user",
     },
   });
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [loginError, setLoginError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleLogin = async () => {
-    try {
-      const { data } = await loginUser({
-        variables: { email: formData.email, password: formData.password },
-      });
+    const { data } = await loginUser({
+      variables: { email: formData.email, password: formData.password },
+    });
+    if (data) {
       const accessToken = data.login.accessToken;
       localStorage.setItem("accessToken", accessToken);
       const refreshToken = data.login.refreshToken;
@@ -38,15 +44,18 @@ function LoginForm() {
       localStorage.setItem("id", id);
       const role = data.login.role;
       localStorage.setItem("role", role);
-      setLoginError("");
       history("/");
       window.location.reload();
-    } catch (error) {
-      console.error("Login error:", error);
-      setLoginError(error.message);
+    } else {
+      console.log("erreur");
     }
   };
 
+  const history = useNavigate();
+  const routeChange = (param) => {
+    let path = `/${param}`;
+    history(path);
+  };
   const handleBackToHome = () => {
     history("/");
   };
@@ -62,32 +71,43 @@ function LoginForm() {
   return (
     <div className="ui container">
       <h2 className="ui header">Login</h2>
-      <Form>
+      <Form onSubmit={handleLogin}>
         <Form.Field>
           <label>Email</label>
           <Input
-            type="text"
-            placeholder="Enter email"
+            type="email"
+            name="email"
             value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={handleChange}
+            required
           />
         </Form.Field>
         <Form.Field>
           <label>Password</label>
           <Input
             type="password"
-            placeholder="Password"
+            name="password"
             value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={handleChange}
+            required
           />
         </Form.Field>
-        <Button onClick={handleLogin}>
+        <Button type="submit" disabled={loading}>
           Login
         </Button>
-        {loginError && <Message negative>{loginError}</Message>}
+        <Button
+          color="primary"
+          className="px-4"
+          onClick={() => routeChange("register")}
+        >
+          register
+        </Button>
       </Form>
+      {loading && <p>Loading...</p>}
+      {error && <Message negative>Error: {error.message}</Message>}
+      {data && <Message positive>User login</Message>}
     </div>
   );
-}
+};
 
 export default LoginForm;

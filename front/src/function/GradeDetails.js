@@ -14,6 +14,7 @@ const GET_ALL_GRADE = gql`
     }
   }
 `;
+
 const GET_GRADE_BY_STUDENT = gql`
   query GetGradeByStudent($student: String) {
     getGradeByStudent(student: $student) {
@@ -67,6 +68,14 @@ const UPDATE_GRADE = gql`
     }
   }
 `;
+const GET_USERS = gql`
+  query Getusers {
+    getusers {
+      id
+      pseudo
+    }
+  }
+`;
 
 const GradeDetails = () => {
   const history = useNavigate();
@@ -79,7 +88,13 @@ const GradeDetails = () => {
   const [selectedGradeId, setSelectedGradeId] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [users, setUsers] = useState([]);
 
+  const { data: userData } = useQuery(GET_USERS, {
+    context: {
+      clientName: "user",
+    },
+  });
   const [addGrade] = useMutation(ADD_GRADE, {
     context: {
       clientName: "grade",
@@ -116,6 +131,12 @@ const GradeDetails = () => {
       );
     }
   }, [data]);
+
+  useEffect(() => {
+    if (userData) {
+      setUsers(userData.getusers);
+    }
+  }, [userData]);
 
   const handleDelete = async (id) => {
     try {
@@ -155,7 +176,6 @@ const GradeDetails = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  const students = Array.from(new Set(grades.map((grade) => grade.student)));
   const courses = Array.from(new Set(grades.map((grade) => grade.course)));
 
   const handleBackTolink = () => {
@@ -191,14 +211,19 @@ const GradeDetails = () => {
         <div className="ui form">
           <div className="fields">
             <div className="field">
-              <input
-                type="text"
-                placeholder="Student"
+              <select
                 value={newGrade.student}
                 onChange={(e) =>
                   setNewGrade({ ...newGrade, student: e.target.value })
                 }
-              />
+              >
+                <option value="">Filter by Student</option>
+                {users.map((student) => (
+                  <option key={users.id} value={users.id}>
+                    {student.pseudo}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="field">
               <input
@@ -236,9 +261,9 @@ const GradeDetails = () => {
                 onChange={(e) => setSelectedStudent(e.target.value)}
               >
                 <option value="">Filter by Student</option>
-                {students.map((student) => (
-                  <option key={student} value={student}>
-                    {student}
+                {users.map((student) => (
+                  <option key={users.id} value={users.id}>
+                    {student.pseudo}
                   </option>
                 ))}
               </select>
@@ -271,10 +296,16 @@ const GradeDetails = () => {
             <p>Course: {gradeInfo.course}</p>
             <p>Grade: {gradeInfo.grade}</p>
             <div className="ui buttons">
-              <button className="ui button" onClick={() => handleDelete(gradeInfo.id)}>
+              <button
+                className="ui button"
+                onClick={() => handleDelete(gradeInfo.id)}
+              >
                 Delete
               </button>
-              <button className="ui button" onClick={() => handleUpdate(gradeInfo.id)}>
+              <button
+                className="ui button"
+                onClick={() => handleUpdate(gradeInfo.id)}
+              >
                 Update
               </button>
               {selectedGradeId === gradeInfo.id && (
