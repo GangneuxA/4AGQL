@@ -37,6 +37,8 @@ const classeroomHttpLink = new HttpLink({
 const userLink = authLink.concat(userHttpLink);
 const gradeLink = authLink.concat(gradeHttpLink);
 const classeroomLink = authLink.concat(classeroomHttpLink);
+console.log(classeroomLink);
+console.log(classeroomHttpLink);
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
