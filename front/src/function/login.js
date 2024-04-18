@@ -81,7 +81,7 @@ function LoginForm() {
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           />
         </Form.Field>
-        <Button primary onClick={handleLogin}>
+        <Button onClick={handleLogin}>
           Login
         </Button>
         {loginError && <Message negative>{loginError}</Message>}
