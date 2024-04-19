@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import isAuthenticated from "../utils/isAuthenticated";
 import isTeacher from "../utils/isTeacher";
 
-
 const GET_ALL_CLASSROOM = gql`
   query GetAllClassroom {
     getAllClassroom {
@@ -69,8 +68,16 @@ const DELETE_CLASSROOM = gql`
 `;
 
 const UPDATE_CLASSROOM = gql`
-  mutation UpdateClassroom($updateClassroomId: ID, $name: String, $numberMax: Int) {
-    updateClassroom(id: $updateClassroomId, name: $name, numberMax: $numberMax) {
+  mutation UpdateClassroom(
+    $updateClassroomId: ID
+    $name: String
+    $numberMax: Int
+  ) {
+    updateClassroom(
+      id: $updateClassroomId
+      name: $name
+      numberMax: $numberMax
+    ) {
       id
       member
       name
@@ -85,7 +92,7 @@ const Classroom = () => {
   const [classroom, setClassroom] = useState([]);
   const [newClassroom, setNewClassroom] = useState({
     name: "",
-    numberMax: 0
+    numberMax: 0,
   });
   const [selectedClassroomID, setSelectedClassroomID] = useState(null);
   const [users, setUsers] = useState([]);
@@ -135,9 +142,7 @@ const Classroom = () => {
 
   useEffect(() => {
     if (data) {
-      setClassroom(
-        data.getAllClassroom
-      );
+      setClassroom(data.getAllClassroom);
     }
   }, [data]);
 
@@ -158,10 +163,12 @@ const Classroom = () => {
 
   const handleDelete = async (id, member) => {
     try {
-      await deleteClassroom({ variables: { 
-        deleteClassroomId: id,
-        member: member
-      } });
+      await deleteClassroom({
+        variables: {
+          deleteClassroomId: id,
+          member: member,
+        },
+      });
       refetch();
     } catch (error) {
       console.error("Error deleting classroom:", error);
@@ -171,9 +178,9 @@ const Classroom = () => {
   const handleAddMember = async (id) => {
     try {
       await addMember({
-        variables: { 
+        variables: {
           addMemberId: id,
-          member: memberId
+          member: memberId,
         },
       });
       setMemberId("");
@@ -201,11 +208,13 @@ const Classroom = () => {
 
   const handleUpdate = (id) => {
     setSelectedClassroomID(id);
-  }
+  };
 
   const handleUpdateClassroom = async (id, name, numberMax) => {
     try {
-      await updateClassroom({ variables: { updateClassroomId: id, name, numberMax } });
+      await updateClassroom({
+        variables: { updateClassroomId: id, name, numberMax },
+      });
       setSelectedClassroomID(null);
       refetch();
     } catch (error) {
@@ -216,8 +225,10 @@ const Classroom = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const classroombyname = Array.from(new Set(classroom.map((classroom) => classroom.name)));
- 
+  const classroombyname = Array.from(
+    new Set(classroom.map((classroom) => classroom.name))
+  );
+
   const handleBackTolink = () => {
     let path = `/login`;
     history(path);
@@ -245,7 +256,7 @@ const Classroom = () => {
   }
 
   return (
-     <div className="ui container">
+    <div className="ui container">
       <h1 className="ui header">Classroom Details</h1>
       <div className="ui segment">
         <h2 className="ui header">Add Classroom</h2>
@@ -282,23 +293,6 @@ const Classroom = () => {
       </div>
       <h2 className="ui header">List of Classrooms</h2>
       <div className="ui segment">
-        <div className="ui form">
-          <div className="field">
-            <select
-              value={selectedClassroomID}
-              onChange={(e) => setSelectedClassroomID(e.target.value)}
-            >
-              <option value="">Filter by Classroom</option>
-              {classroombyname.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
-      <div className="ui segment">
         {classroom.map((classroomInfo) => (
           <div key={classroomInfo.id} className="ui segment">
             <h3>Classroom</h3>
@@ -310,7 +304,10 @@ const Classroom = () => {
               {classroomInfo.member.map((member, index) => (
                 <li key={index}>
                   {users.find((user) => user.id === member)?.pseudo}
-                  <button className="ui button" onClick={() => handleDeleteMember(classroomInfo.id, member)}>
+                  <button
+                    className="ui button"
+                    onClick={() => handleDeleteMember(classroomInfo.id, member)}
+                  >
                     Delete
                   </button>
                 </li>
@@ -319,10 +316,7 @@ const Classroom = () => {
             <div className="ui form">
               <div className="fields">
                 <div className="field">
-                  <select
-                    value={memberId}
-                    onChange={handleInputChange}
-                  >
+                  <select value={memberId} onChange={handleInputChange}>
                     <option value="">Select User</option>
                     {users.map((user) => (
                       <option key={user.id} value={user.id}>
@@ -332,17 +326,26 @@ const Classroom = () => {
                   </select>
                 </div>
                 <div className="field">
-                  <button className="ui button" onClick={() => handleAddMember(classroomInfo.id)}>
+                  <button
+                    className="ui button"
+                    onClick={() => handleAddMember(classroomInfo.id)}
+                  >
                     Add Member
                   </button>
                 </div>
                 <div className="field">
-                  <button className="ui button" onClick={() => handleDelete(classroomInfo.id)}>
+                  <button
+                    className="ui button"
+                    onClick={() => handleDelete(classroomInfo.id)}
+                  >
                     Delete
                   </button>
                 </div>
                 <div className="field">
-                  <button className="ui button" onClick={() => handleUpdate(classroomInfo.id)}>
+                  <button
+                    className="ui button"
+                    onClick={() => handleUpdate(classroomInfo.id)}
+                  >
                     Update
                   </button>
                 </div>
@@ -372,7 +375,16 @@ const Classroom = () => {
                         }
                       />
                     </div>
-                    <button className="ui button" onClick={() => handleUpdateClassroom(classroomInfo.id, newClassroom.name, newClassroom.numberMax)}>
+                    <button
+                      className="ui button"
+                      onClick={() =>
+                        handleUpdateClassroom(
+                          classroomInfo.id,
+                          newClassroom.name,
+                          newClassroom.numberMax
+                        )
+                      }
+                    >
                       Save
                     </button>
                   </div>

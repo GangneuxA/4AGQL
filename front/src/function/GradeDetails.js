@@ -85,6 +85,10 @@ const GradeDetails = () => {
     course: "",
     grade: 0,
   });
+  const [UpdtaeGrade, setUpdateGrade] = useState({
+    grade: 0,
+  });
+
   const [selectedGradeId, setSelectedGradeId] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -310,24 +314,30 @@ const GradeDetails = () => {
               </button>
               {selectedGradeId === gradeInfo.id && (
                 <div>
-                  <input
-                    type="number"
-                    value={newGrade.grade}
-                    onChange={(e) =>
-                      setNewGrade({
-                        ...newGrade,
-                        grade: parseInt(e.target.value),
-                      })
-                    }
-                  />
-                  <button
-                    className="ui button"
-                    onClick={() =>
-                      handleUpdateGrade(gradeInfo.id, newGrade.grade)
-                    }
-                  >
-                    Save
-                  </button>
+                  <div className="ui form">
+                    <div className="fields">
+                      <div className="field">
+                        <input
+                          type="number"
+                          value={UpdtaeGrade.grade}
+                          onChange={(e) =>
+                            setUpdateGrade({
+                              ...UpdtaeGrade,
+                              grade: parseInt(e.target.value),
+                            })
+                          }
+                        />
+                      </div>
+                      <button
+                        className="ui button"
+                        onClick={() =>
+                          handleUpdateGrade(gradeInfo.id, UpdtaeGrade.grade)
+                        }
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
