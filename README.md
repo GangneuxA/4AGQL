@@ -90,4 +90,4 @@ npm test
 
 For the security the Appollo servers have CORS to accept only request on local ok react app.
 
-All mution in apollo server have JWT token with x-access-token and x-refresh-token for generate this. you need to connect with graphql user.
+All mutation in apollo server have JWT token with x-access-token and x-refresh-token to generate this you need to connect with graphql user with mutation login.
