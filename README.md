@@ -4,6 +4,7 @@ The class project is realized by Alexis GANGNEUX and Julien BOISGARD.
 
 We have 3 databases model follow this MLD:
 ![Alt text](/images/archi.png "follow this model")
+
 each models has his pod
 
 In docker, we have this architecture
@@ -30,7 +31,7 @@ for the classrooms on http://localhost:4001
 
 ### Lauch the front
 
-in folder create .env with this lines :
+in folder front create .env and insert theses lines :
 
 ```Bash
 REACT_APP_URLUSER="http://localhost:4000/"
@@ -90,4 +91,4 @@ npm test
 
 For the security the Appollo servers have CORS to accept only request on local ok react app.
 
-All mutation in apollo server have JWT token with x-access-token and x-refresh-token to generate this you need to connect with graphql user with mutation login.
+All mutation in apollo server have JWT token with x-access-token and x-refresh-token to generate this you need to connect with graphql user with mutation login. before you register with mutation createuser in user apollo server.
