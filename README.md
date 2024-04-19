@@ -92,3 +92,10 @@ npm test
 For the security the Appollo servers have CORS to accept only request on local ok react app.
 
 All mutation in apollo server have JWT token with x-access-token and x-refresh-token to generate this you need to connect with graphql user with mutation login. before you register with mutation createuser in user apollo server.
+
+### Role
+
+In student you are acces to view grade , classroom, users and you can edit/delete your user.
+In teacher you can crud grade , classroom and users.
+
+to becom teacher user mutation setteacher by being connected then reconnect 
